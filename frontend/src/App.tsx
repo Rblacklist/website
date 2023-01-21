@@ -1,5 +1,7 @@
+import { Router } from './router/Router';
+
 function App() {
-  return <div className='App'>welcome to risk black list</div>;
+  return <Router />;
 }
 
 export default App;
