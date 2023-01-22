@@ -8,7 +8,7 @@ const breakpoints = {
   desktop: '1400px',
 };
 
-const defaultFontFamily = '"Roboto", "Helvetica", "Arial", sans-serif';
+const defaultFontFamily = '"Poppins", "Helvetica", "Arial", sans-serif';
 
 export const light: StyledTheme = {
   breakpoints,
@@ -25,49 +25,49 @@ export const light: StyledTheme = {
     fontWeightMedium: 500,
     fontWeightBold: 700,
     h1: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 500,
       fontSize: '2.031rem',
       lineHeight: 1.2,
     },
     h2: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 500,
       fontSize: '1.625rem',
       lineHeight: 1.2,
     },
     h3: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 500,
       fontSize: '1.42188rem',
       lineHeight: 1.2,
     },
     h4: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 500,
       fontSize: '1.21875rem',
       lineHeight: 1.2,
     },
     h5: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 500,
       fontSize: '1.01563rem',
       lineHeight: 1.2,
     },
     h6: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 500,
       fontSize: '0.8125rem',
       lineHeight: 1.2,
     },
     body1: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 400,
       fontSize: '1rem',
       lineHeight: 1.5,
     },
     body2: {
-      fontFamily: `"Poppins", "Helvetica", "Arial", sans-serif"`,
+      fontFamily: defaultFontFamily,
       fontWeight: 400,
       fontSize: '0.875rem',
       lineHeight: 1.43,
