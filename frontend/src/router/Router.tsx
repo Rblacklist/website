@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, RouteProps, Route, Routes } from 'react-router-dom';
+import { LoadingScreen } from '../components/LoadingScreen/LoadingScreen';
 
 const Login = React.lazy(() => import('../pages/Login'));
 const Landing = React.lazy(() => import('../pages/Landing'));
@@ -17,7 +18,7 @@ const routes: RouteProps[] = [
 
 export const Router = () => {
   return (
-    <Suspense fallback={<div>loading...</div>}>
+    <Suspense fallback={<LoadingScreen />}>
       <BrowserRouter>
         <Routes>
           {routes.map((route) => (
