@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import userReducer from './features/user/userSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    user: userReducer,
+  },
   devTools: process.env.NODE_ENV === 'development',
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });
