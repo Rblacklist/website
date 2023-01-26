@@ -7,6 +7,7 @@ const Register = React.lazy(() => import('../pages/Register'));
 const Login = React.lazy(() => import('../pages/Login'));
 const Landing = React.lazy(() => import('../pages/Landing'));
 const Dashboard = React.lazy(() => import('../pages/Dashboard'));
+const NotFound = React.lazy(() => import('../pages/NotFound404'));
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: '/',
     element: <Landing />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ];
 
