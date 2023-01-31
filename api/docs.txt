@@ -1,0 +1,4 @@
+// Api key
+apikey => '8Dwg95XEf6grLhvKJOV0LxrPffbOXBZjtazs9pV1IX6PcL6jZA2fhyCZh1IuTzDq'
+// Reset password (Frontend)
+{{domain-forntend}}/reset-password/{token}
