@@ -17,7 +17,7 @@ class StatusOrderFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->randomElement(['Delivery', 'Canceled','Pending','call no reponse 1','call no reponse 2','call no reponse 3']),
+            'name' => fake()->randomElement(['Confirmed', 'Canceled','Pending','call no reponse 1','call no reponse 2','call no reponse 3']),
         ];
     }
 }
