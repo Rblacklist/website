@@ -21,9 +21,15 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
+
 Route::prefix('v1')->group(function () {
+    Route::get('/example', function(){
+        return response()->json(['message' => 'Example API response'], 200);
+    });
     Route::post('login', [UserController::class, 'login']);
     Route::post('register', [UserController::class, 'register']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('email/verify', [AuthController::class, 'verifyEmail']);
 
     Route::middleware('auth:api')->group(function () {
         Route::resource('orders', OrderController::class);

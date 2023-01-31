@@ -15,8 +15,8 @@ class UserController extends ApiController
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email'    => 'required|email',
-            'password' => 'required'
+            'email' => 'required|string|email',
+            'password' => 'required|string',
         ]);
 
         if ($validator->fails()) return $this->sendError('Validation Error.', $validator->errors(), 422);
@@ -29,9 +29,9 @@ class UserController extends ApiController
             $success['token'] = $user->createToken('accessToken')->accessToken;
 
             return $this->sendResponse($success, 'You are successfully logged in.');
-        } else {
-            return $this->sendError('Unauthorised', ['error' => 'Unauthorised'], 401);
         }
+
+        return $this->sendError('Unauthorised', ['error' => 'Unauthorised'], 401);
     }
 
     /**
@@ -43,9 +43,9 @@ class UserController extends ApiController
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'     => 'required',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:8'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users|max:255',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) return $this->sendError('Validation Error.', $validator->errors(), 422);
@@ -68,4 +68,26 @@ class UserController extends ApiController
         return $this->sendResponse($success, $message);
     }
 
+    public function verifyEmail(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'required|string|email',
+        ]);
+
+        if (!User::where('email', $validatedData['email'])->exists()) {
+            return response(['message' => 'Email not found'], 404);
+        }
+
+        // Add code to send email verification link
+
+        return response(['message' => 'Verification link sent']);
+    }
+
+    public function logout(Request $request)
+    {
+        $success['name']  = $request->user->name;
+        $request->user()->token()->revoke();
+        $message          = 'Successfully logged out';
+        return $this->sendResponse($success, $message);
+    }
 }
