@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TypeStore;
+use App\Models\TypeSource;
 use Illuminate\Http\Request;
 
-class TypeStoreController extends ApiController
+class TypeSourceController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class TypeStoreController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\TypeStore  $typeStore
+     * @param  \App\Models\TypeSource  $TypeSource
      * @return \Illuminate\Http\Response
      */
-    public function show(TypeStore $typeStore)
+    public function show(TypeSource $typeStore)
     {
         //
     }
@@ -46,7 +46,7 @@ class TypeStoreController extends ApiController
      * @param  \App\Models\TypeStore  $typeStore
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TypeStore $typeStore)
+    public function update(Request $request, TypeSource $typeStore)
     {
         //
     }
@@ -57,7 +57,7 @@ class TypeStoreController extends ApiController
      * @param  \App\Models\TypeStore  $typeStore
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TypeStore $typeStore)
+    public function destroy(TypeSource $typeStore)
     {
         //
     }
