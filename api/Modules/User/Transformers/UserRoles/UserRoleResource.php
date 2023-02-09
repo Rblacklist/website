@@ -20,6 +20,7 @@ class UserRoleResource extends JsonResource
             'firstname' => $this->firstname ?? '',
             'lastname' => $this->lastname ?? '',
             'email' => $this->email ?? '',
+            'avatar' => $this->avatar ?? '',
             'code' => $this->code ?? '',
             'phone' => $this->phone ?? '',
             'roles' => new RoleCollection($this->roles),

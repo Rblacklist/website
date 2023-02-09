@@ -14,6 +14,16 @@ class ConfMailResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'mailer' => $this->mailer,
+            'host' => $this->host,
+            'port' => $this->port,
+            'username' => $this->username,
+            'encryption' => $this->encryption,
+            'from_address' => $this->from_address,
+            'is_selected' => $this->is_selected,
+            'created_at' => $this->created_at,
+        ];
     }
 }

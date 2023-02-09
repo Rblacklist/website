@@ -2,6 +2,8 @@
 
 namespace Modules\Product\Http\Controllers\Products;
 
+use Exception;
+use App\Traits\UploadImages;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Product\Entities\Product;
@@ -15,6 +17,21 @@ use Modules\Product\Transformers\Products\ProductCollection;
 
 class ProductController extends ApiController
 {
+    public function __construct()
+    {
+         //
+         $this->middleware('role:super-admin|admin|manager|member');
+         //
+         if (!auth('sanctum')->user()->can('product-all')) {
+             $this->middleware('role_or_permission:super-admin|product-view')->only('index', 'selectingFields');
+             $this->middleware('role_or_permission:super-admin|product-show')->only('show');
+             $this->middleware('role_or_permission:super-admin|product-create')->only('store', 'uploadImage');
+             $this->middleware('role_or_permission:super-admin|product-update')->only('update');
+             $this->middleware('role_or_permission:super-admin|product-delete')->only('destroy');
+         }
+    }
+
+    private $urlImage = 'images/products/';
     /**
      * Display a listing of the resource.
      * @return Response
@@ -86,6 +103,28 @@ class ProductController extends ApiController
         //
         $product = Product::create($request->all());
         return $this->successResponse(new ProductResource($product), Response::HTTP_CREATED);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadImage(Request $request, Product $product)
+    {
+        try {
+            $validated = $request->validate([
+                'image' => 'required|mimes:png,jpeg,jpg,webp|image',
+            ]);
+            if ($validated) {
+                $product->image = UploadImages::file($request->file('image'), $this->urlImage);
+                $product->save();
+                return $this->showMessage(trans('messages.updated_successfully'), Response::HTTP_NO_CONTENT);
+            }
+            return $this->errorResponse(trans('messages.resource_cannot_be_updated'), Response::HTTP_BAD_REQUEST);
+        } catch (Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 

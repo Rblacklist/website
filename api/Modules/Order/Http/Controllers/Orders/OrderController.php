@@ -7,6 +7,7 @@ use PDOException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Order\Entities\Order;
+use Illuminate\Support\Facades\Http;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Controllers\ApiController;
@@ -18,6 +19,8 @@ use Modules\Order\Http\Requests\Orders\UpdateOrderRequest;
 
 class OrderController extends ApiController
 {
+
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -26,9 +29,21 @@ class OrderController extends ApiController
     private $total = 0;
     private $user = null;
 
+
     public function __construct()
     {
+        //
         $this->user = auth('sanctum')->user();
+        //
+        $this->middleware('role:super-admin|admin|manager|member');
+        //
+        if (!auth('sanctum')->user()->can('order-all')) {
+            $this->middleware('role_or_permission:super-admin|order-view')->only('index', 'selectingFields');
+            $this->middleware('role_or_permission:super-admin|order-show')->only('show');
+            $this->middleware('role_or_permission:super-admin|order-create')->only('store');
+            $this->middleware('role_or_permission:super-admin|order-update')->only('update');
+            $this->middleware('role_or_permission:super-admin|order-delete')->only('destroy');
+        }
     }
 
     public function index(Request $request) // {{domain}}/api/orders (GET)
@@ -129,7 +144,6 @@ class OrderController extends ApiController
         }
         return $this->errorResponse(trans('messages.resource_cannot_be_created'), Response::HTTP_BAD_REQUEST);
     }
-
 
 
     /**
@@ -279,19 +293,23 @@ class OrderController extends ApiController
     private function storeOrder($request)
     {
         try {
-            $order = Order::create([
-                'order_number' =>  sprintf("%06d", $this->generateNumberOrder()),
-                'delivery_type' => $request->delivery_type,
-                'cusomter_id' => $request->cusomter_id,
-                'store_id' => $request->store_id,
-                'source_id' => $request->source_id,
-                'note' => $request->note,
-                'delivery_company_id' => $request->delivery_company_id,
-                'is_sent' => $request->is_sent,
-                'status_order_id' => $request->status_order_id ?? 1,
-                'order_total' => $this->total
-            ]);
-            return $order;
+            if(is_array($request->all())){
+
+            } else{
+                $order = Order::create([
+                    'order_number' =>  sprintf("%06d", $this->generateNumberOrder()),
+                    'delivery_type' => $request->delivery_type,
+                    'cusomter_id' => $request->cusomter_id,
+                    'store_id' => $request->store_id,
+                    'source_id' => $request->source_id,
+                    'note' => $request->note,
+                    'delivery_company_id' => $request->delivery_company_id,
+                    'is_sent' => $request->is_sent,
+                    'status_order_id' => $request->status_order_id ?? 1,
+                    'order_total' => $this->total
+                ]);
+                return $order;
+            }
         } catch (PDOException $ex) {
             return $this->errorResponse($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         } catch (Exception $ex) {

@@ -14,7 +14,7 @@ use Modules\Customer\Http\Controllers\Customers\CustomerController;
 */
 
 
-Route::middleware(['auth.apikey'])->controller(CustomerController::class)->group(function () {
+Route::middleware(['auth.apikey','auth:sanctum'])->controller(CustomerController::class)->group(function () {
     // GET
     Route::get('/customers', 'index'); // {{domain}}/api/customers?limit=10&offset=0
     Route::get('/customers/{customer}', 'show'); // {{domain}}/api/customers/{customer}

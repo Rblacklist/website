@@ -4,7 +4,7 @@ use Modules\Order\Http\Controllers\ProductsOrder\ProductsOrderController;
 
 
 
-Route::middleware(['auth.apikey'])->controller(ProductsOrderController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(ProductsOrderController::class)->group(function () {
     // GET
     Route::get('/products-order', 'index'); // {{domain}}/api/products-order'?limit=10&offset=0
     Route::get('/products-order/{products_order}', 'show'); // {{domain}}/api/products-order/{products_order}

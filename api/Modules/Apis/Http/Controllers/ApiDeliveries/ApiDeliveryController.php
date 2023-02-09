@@ -14,6 +14,10 @@ use Modules\Apis\Http\Requests\ApiDelieries\UpdateApiDeliveryRequest;
 
 class ApiDeliveryController extends ApiController
 {
+    public function __construct(){
+        $this->middleware('role:super-admin');
+    }
+
     /**
      * Display a listing of the resource.
      * @param Request $request
@@ -47,20 +51,7 @@ class ApiDeliveryController extends ApiController
         return $this->showAll($apiDeliveries, Response::HTTP_OK);
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function selectingFields()
-    {
-        $apiDelivery = QueryBuilder::for(ApiDelivery::class)
-            ->allowedFields([
-                'id', 'name', 'key_id', 'key_secret', 'status',
-                'created_at', 'updated_at',
-            ])
-            ->get();
-        return $this->showAll($apiDelivery, Response::HTTP_OK);
-    }
+
 
     /**
      * Store a newly created resource in storage.

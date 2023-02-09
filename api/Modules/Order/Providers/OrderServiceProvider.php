@@ -3,7 +3,9 @@
 namespace Modules\Order\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Order\Console\GetOrdersApi;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Console\Scheduling\Schedule;
 
 class OrderServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,15 @@ class OrderServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        // Command
+        $this->commands([
+            GetOrdersApi::class,
+        ]);
+
+        $this->app->booted(function () {
+            $schedule = $this->app->make(Schedule::class);
+            $schedule->command('module:get-orders-api')->everyTenMinutes();
+        });
     }
 
     /**

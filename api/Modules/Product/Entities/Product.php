@@ -2,6 +2,7 @@
 
 namespace Modules\Product\Entities;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Entities\ProductOrder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,6 +14,17 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function getImageAttribute($value)
+    {
+        if (Str::startsWith($value, 'http')) {
+            return $value;
+        } elseif (file_exists(public_path('images/products/' . $value)) && !empty($value)) {
+            return asset('public/images/products/' . $value);
+        } else {
+            return asset('public/404.png');
+        }
+    }
 
     // -----------------------------Relations---------------------------------------
     // Products_order

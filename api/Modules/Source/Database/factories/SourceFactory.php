@@ -23,12 +23,7 @@ class SourceFactory extends Factory
     {
         return [
             //
-            'name' => fake()->word,
-            'base_url' => 'http://' . fake()->word,
-            'status' => 1,
-            'type_source_id' => TypeSource::all()->random()->id,
-            'created_at' => now(),
-            'updated_at' => now(),
+            
         ];
     }
 }

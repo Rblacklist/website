@@ -2,7 +2,9 @@
 
 namespace Modules\User\Entities;
 
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -13,7 +15,7 @@ use Modules\User\Notifications\MailResetPasswordNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     protected $guarded  = [];
     /**
@@ -24,6 +26,17 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
     ];
+
+    public function getAvatarAttribute($value)
+    {
+        if (Str::startsWith($value, 'http')) {
+            return $value;
+        } elseif (file_exists(public_path('images/users/' . $value)) && !empty($value)) {
+            return asset('public/images/users/' . $value);
+        } else {
+            return asset('public/404.png');
+        }
+    }
 
     /**
      * The attributes that should be cast.

@@ -16,7 +16,12 @@ class StoreSourceRequest extends FormRequest
         return [
             //
             'name' => ['required', 'string', 'unique:sources,name'],
-            'base_url' => ['required', 'url']
+            'base_url' => ['required', 'url'],
+            'data' => ['required', 'array'],
+            'data.type' => ['required', 'string'],
+            'data.key' => ['required', 'string'],
+            'data.secret' => ['required', 'string'],
+
         ];
     }
 

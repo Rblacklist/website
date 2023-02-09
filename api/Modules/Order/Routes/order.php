@@ -15,7 +15,7 @@ use Modules\Order\Http\Controllers\Orders\OrderController;
 */
 
 
-Route::middleware(['auth.apikey'])->controller(OrderController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(OrderController::class)->group(function () {
     // GET
     Route::get('/orders', 'index'); // {{domain}}/api/orders?limit=10&offset=0
     Route::get('/orders/{order}', 'show'); // {{domain}}/api/orders/{order}

@@ -16,6 +16,11 @@ use Modules\Order\Http\Requests\StatusOrders\UpdateStatusOrderRequest;
 
 class StatusController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('role:super-admin');
+    }
+    
     /**
      * Display a listing of the resource.
      * @return Response
@@ -29,7 +34,7 @@ class StatusController extends ApiController
         //
         $columns = [
             // Sources
-            AllowedFilter::exact('id'), 'name',
+            AllowedFilter::exact('id'), 'name', 'color',
             AllowedFilter::scope('status'), 'created_at',
         ];
         //
@@ -71,7 +76,7 @@ class StatusController extends ApiController
     public function selectingFields()
     {
         $typeSource = QueryBuilder::for(TypeSource::class)
-            ->allowedFields(['id', 'name', 'status', 'created_at', 'updated_at'])
+            ->allowedFields(['id', 'name', 'color', 'status', 'created_at', 'updated_at'])
             ->get();
         return $this->showAll($typeSource, Response::HTTP_OK);
     }
@@ -104,6 +109,12 @@ class StatusController extends ApiController
             if (request()->has('name')) {
                 $statusOrder->name = $request->name;
             }
+
+            // color
+            if (request()->has('color')) {
+                $statusOrder->color = $request->color;
+            }
+
             // status
             if (request()->has('status')) {
                 $statusOrder->status = $request->status;

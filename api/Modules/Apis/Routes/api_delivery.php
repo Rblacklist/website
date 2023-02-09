@@ -14,7 +14,7 @@ use Modules\Apis\Http\Controllers\ApiDeliveries\ApiDeliveryController;
 |
 */
 
-Route::middleware(['auth.apikey'])->controller(ApiDeliveryController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(ApiDeliveryController::class)->group(function () {
     // GET
     Route::get('/api-deliveries', 'index'); // {{domain}}/api/api-deliveries?limit=10&offset=0
     Route::get('/api-deliveries/{api_delivery}', 'show'); // {{domain}}/api/api-deliveries/{api_delivery}

@@ -183,6 +183,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Buglinjo\LaravelWebp\WebpServiceProvider::class,
         Ejarnutowski\LaravelApiKey\Providers\ApiKeyServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Package Service Providers...

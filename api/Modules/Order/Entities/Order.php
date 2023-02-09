@@ -26,11 +26,7 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    // Source
-    public function store()
-    {
-        return $this->belongsTo(Store::class);
-    }
+    
 
     // Source
     public function source()

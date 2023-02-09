@@ -2,6 +2,8 @@
 
 namespace Modules\Source\Http\Controllers\Sources;
 
+use Exception;
+use App\Traits\UploadImages;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -16,6 +18,23 @@ use Modules\Source\Http\Requests\Sources\UpdateSourceRequest;
 
 class SourceController extends ApiController
 {
+    //
+    private $urlAvatar = 'images/sources/';
+
+    //
+    public function __construct()
+    {
+        //
+        $this->middleware('role:super-admin|admin|manager|member');
+        //
+        if (!auth('sanctum')->user()->can('source-all')) {
+            $this->middleware('role_or_permission:super-admin|source-view')->only('index', 'selectingFields');
+            $this->middleware('role_or_permission:super-admin|source-show')->only('show');
+            $this->middleware('role_or_permission:super-admin|source-create')->only('store', 'uploadAvatar');
+            $this->middleware('role_or_permission:super-admin|source-update')->only('update');
+            $this->middleware('role_or_permission:super-admin|source-delete')->only('destroy');
+        }
+    }
     /**
      * Display a listing of the resource.
      * @return Response
@@ -89,6 +108,22 @@ class SourceController extends ApiController
     }
 
 
+    public function uploadAvatar(Request $request, Source $source)
+    {
+        try {
+            $validated = $request->validate([
+                'avatar' => 'required|mimes:png,jpeg,jpg,webp|image',
+            ]);
+            if ($validated) {
+                $source->avatar = UploadImages::file($request->file('avatar'), $this->urlAvatar);
+                $source->save();
+                return $this->successResponse(trans('messages.updated_successfully'), Response::HTTP_NO_CONTENT);
+            }
+            return $this->errorResponse(trans('messages.resource_cannot_be_updated'), Response::HTTP_BAD_REQUEST);
+        } catch (Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -108,6 +143,12 @@ class SourceController extends ApiController
             if (request()->has('base_url')) {
                 $source->base_url = $request->base_url;
             }
+
+            // data
+            if (request()->has('data')) {
+                $source->data = $request->data;
+            }
+
             // status
             if (request()->has('status')) {
                 $source->status = $request->status;

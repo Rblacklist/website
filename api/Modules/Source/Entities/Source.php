@@ -2,6 +2,7 @@
 
 namespace Modules\Source\Entities;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Source\Entities\TypeSource;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,12 +15,21 @@ class Source extends Model
 
     protected $guarded = [];
 
-    // -----------------------------Relations---------------------------------------
-    public function typeSource(){
-        return $this->belongsTo(TypeSource::class, 'type_source_id', 'id');
+    protected $casts = [
+        'data' => 'array'
+    ];
+
+
+    public function getAvatarAttribute($value)
+    {
+        if (Str::startsWith($value, 'http')) {
+            return $value;
+        } elseif (file_exists(public_path('images/sources/' . $value)) && !empty($value)) {
+            return asset('public/images/sources/' . $value);
+        } else {
+            return asset('public/404.png');
+        }
     }
-
-
 
     //------------------------Factory--------------------------------
     public static function  newFactory()

@@ -16,6 +16,11 @@ use Modules\DeliveryCompany\Http\Requests\UpdateDeliveryCompanyRequest;
 
 class DeliveryCompanyController extends ApiController
 {
+
+    public function __construct(){
+        $this->middleware('role:super-admin');
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response

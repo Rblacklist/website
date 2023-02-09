@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\Apis\Http\Controllers\ApiShops\ApiShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,18 +16,16 @@ use Illuminate\Http\Request;
 
 
 
-Route::middleware(['auth.apikey'])->controller(ApiDeliveryController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(ApiShopController::class)->group(function () {
     // GET
-    Route::get('/api-deliveries', 'index'); // {{domain}}/api/api-delivery?limit=10&offset=0
-    Route::get('/api-delivery/{api_delivery}', 'show'); // {{domain}}/api/api-delivery/{api_delivery}
-    Route::get('/selecting-fields/api-delivery', 'selectingFields'); // {{domain}}/api/selecting-fields/api-delivery?fields[api_deliveries]=id,name
-
+    Route::get('/api-shops', 'index'); // {{domain}}/api/api-shops?limit=10&offset=0
+    Route::get('/api-shops/{api_shop}', 'show'); // {{domain}}/api/api-shops/{api_shop}
     // POST
-    Route::post('/api-delivery', 'store'); // {{domain}}/api/api-delivery
+    Route::post('/api-shops', 'store'); // {{domain}}/api/api-shop
 
     // PUT
-    Route::put('/api-delivery/{api_delivery}', 'update'); // {{domain}}/api/api-delivery/{api_delivery} (PUT)
+    Route::put('/api-shops/{api_shop}', 'update'); // {{domain}}/api/api-shops/{api_shop} (PUT)
 
     // DELETE
-    Route::delete('/api-delivery/{api_delivery}', 'destroy'); // {{domain}}/api/api-delivery/{api_delivery}
+    Route::delete('/api-shops/{api_shop}', 'destroy'); // {{domain}}/api/api-shops/{api_shop}
 });

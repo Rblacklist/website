@@ -14,7 +14,7 @@ use Modules\DeliveryCompany\Http\Controllers\DeliveryCompany\DeliveryCompanyCont
 |
 */
 
-Route::middleware(['auth.apikey'])->controller(DeliveryCompanyController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(DeliveryCompanyController::class)->group(function () {
     // GET
     Route::get('/delivery-company', 'index'); // {{domain}}/api/delivery-company?limit=10&offset=0
     Route::get('/delivery-company/{delivery_company}', 'show'); // {{domain}}/api/delivery-company/{delivery_company}

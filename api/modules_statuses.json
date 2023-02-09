@@ -3,9 +3,11 @@
     "User": true,
     "Product": true,
     "Order": true,
-    "Store": true,
     "Customer": true,
     "DeliveryCompany": true,
     "Source": true,
-    "Blog": true
+    "Blog": true,
+    "Zone": true,
+    "Setting": true,
+    "Apis": true
 }

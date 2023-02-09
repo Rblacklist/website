@@ -3,7 +3,7 @@
 use Modules\Order\Http\Controllers\Status\StatusController;
 
 
-Route::middleware(['auth.apikey'])->controller(StatusController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(StatusController::class)->group(function () {
     // GET
     Route::get('/status-orders', 'index'); // {{domain}}/api/status-orders?limit=10&offset=0
     Route::get('/status-orders/{status_order}', 'show'); // {{domain}}/api/status-orders/{status_order}

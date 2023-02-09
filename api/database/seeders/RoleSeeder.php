@@ -18,29 +18,29 @@ class RoleSeeder extends Seeder
         //
         $data = [];
 
-        $data [] = [
+        $data[] = [
             'name' => 'super-admin',
             'guard_name' => 'web',
             'created_at' => now(),
             'updated_at' => now(),
         ];
 
-        $data [] = [
+        $data[] = [
             'name' => 'admin',
             'guard_name' => 'web',
             'created_at' => now(),
             'updated_at' => now(),
         ];
 
-        $data [] = [
+        $data[] = [
             'name' => 'manager',
             'guard_name' => 'web',
             'created_at' => now(),
             'updated_at' => now(),
         ];
 
-        $data [] = [
-            'name' => 'client',
+        $data[] = [
+            'name' => 'member',
             'guard_name' => 'web',
             'created_at' => now(),
             'updated_at' => now(),

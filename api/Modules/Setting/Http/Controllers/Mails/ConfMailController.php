@@ -16,6 +16,11 @@ use Modules\Setting\Http\Requests\Mail\UpdateEmailRequest;
 class ConfMailController extends ApiController
 {
 
+    public function __construct()
+    {
+        $this->middleware('role:super-admin');
+    }
+    
     /**
      * Display a listing of the resource.
      * @param Request $request

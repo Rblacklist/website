@@ -15,8 +15,33 @@ class SourceTableSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
 
-        Source::factory()->count(10)->create();
+        Source::create(
+            [
+                'name' => 'Woocommerce',
+                'base_url' => "https://youcan.shop",
+                'avatar' => 'https://expediten.se/wp-content/uploads/2021/10/woocommerce-utvecklare.png',
+                'data' => [
+                    'type' => 'woocommerce',
+                    'key' => '7087FHDFDE7RE8R70HFHLDJFE7R',
+                    'secret' => '7087FHDFDHJFHDE8R70HFHLDJFE7R',
+                ],
+                'status' => 1
+            ]
+        );
+
+        Source::create(
+            [
+                'name' => 'YouCan',
+                'base_url' => "https://youcan.shop",
+                'avatar' => "https://youcan.shop/images/brand_images/Logo-YouCan-4.png",
+                'data' => [
+                    'type' => 'you_can',
+                    'key' => '7087FHDFDE7RE8R70HFHLDJFE7R',
+                    'secret' => '7087FHDFDE7RE8R70HFHLDJFE7R',
+                ],
+                'status' => 1
+            ]
+        );
     }
 }

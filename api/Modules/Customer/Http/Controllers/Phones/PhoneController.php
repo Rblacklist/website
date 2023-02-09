@@ -15,6 +15,11 @@ use Modules\Customer\Transformers\Phones\PhoneCollection;
 
 class PhoneController extends ApiController
 {
+
+    public function __construct(){
+        $this->middleware('role:super-admin');
+    }
+    
     /**
      * Display a listing of the resource.
      * @param Request $request

@@ -3,6 +3,7 @@
 namespace Modules\User\Transformers\Roles;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\User\Transformers\Permissions\PermissionCollection;
 
 class RoleResource extends JsonResource
 {
@@ -17,7 +18,9 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id ?? '',
             'name' => $this->name ?? '',
+            'permissions' => new PermissionCollection($this->permissions),
             'created_at' => $this->created_at->format('Y-m-d H:i:s') ?? '',
+            'updated_at' => $this->created_at->format('Y-m-d H:i:s') ?? '',
         ];
     }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('code', 5)->nullable();
             $table->string('phone', 12)->nullable();
             $table->string('password');
-            $table->string('avatar', 150)->nullable()->default(null);
+            $table->string('avatar')->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->boolean('status')->default(true);

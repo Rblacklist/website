@@ -14,7 +14,7 @@ use Modules\Source\Http\Controllers\Sources\SourceController;
 |
 */
 
-Route::middleware(['auth.apikey'])->controller(SourceController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(SourceController::class)->group(function () {
     // GET
     Route::get('/sources', 'index'); // {{domain}}/api/sources?limit=10&offset=0
     Route::get('/sources/{source}', 'show'); // {{domain}}/api/sources/{source}
@@ -22,6 +22,7 @@ Route::middleware(['auth.apikey'])->controller(SourceController::class)->group(f
 
     // POST
     Route::post('/sources', 'store'); // {{domain}}/api/sources
+    Route::post('/sources/upload-avatar/{source}', 'uploadAvatar'); // {{domain}}/api/sources/upload-avatar/{source}
 
     // PUT
     Route::put('/sources/{source}', 'update'); // {{domain}}/api/sources/{source} (PUT)

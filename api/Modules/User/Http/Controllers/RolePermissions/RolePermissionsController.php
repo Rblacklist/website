@@ -11,6 +11,11 @@ use Modules\User\Transformers\RolePermissions\RolePermissionResource;
 
 class RolePermissionsController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('role:super-admin|admin');
+    }
+
     public function setPermissionsForRole(RolePermissionsRequest $request, Role $role)
     {
         $role->syncPermissions($request->permissions);

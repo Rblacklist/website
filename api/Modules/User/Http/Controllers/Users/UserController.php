@@ -2,13 +2,14 @@
 
 namespace Modules\User\Http\Controllers\Users;
 
+use Exception;
+use App\Traits\UploadImages;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\User\Entities\User;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Controllers\ApiController;
-use Illuminate\Contracts\Support\Renderable;
 use Modules\User\Http\Requests\StoreUserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Transformers\Users\UserResource;
@@ -16,10 +17,22 @@ use Modules\User\Transformers\Users\UserCollection;
 
 class UserController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+    private $urlAvatar = 'images/users/';
+
+    public function __construct()
+    {
+        //
+        $this->middleware('role:super-admin');
+        //
+        if (!auth('sanctum')->user()->can('user-all')) {
+            $this->middleware('role_or_permission:super-admin|user-view')->only('index', 'selectingFields');
+            $this->middleware('role_or_permission:super-admin|user-show')->only('show');
+            $this->middleware('role_or_permission:super-admin|user-create')->only('store', 'uploadAvatar');
+            $this->middleware('role_or_permission:super-admin|user-update')->only('update');
+            $this->middleware('role_or_permission:super-admin|user-delete')->only('destroy');
+        }
+    }
+
     public function getInfoUser(Request $request)
     {
         return $this->showOne(new UserResource($request->user()));
@@ -32,6 +45,7 @@ class UserController extends ApiController
 
     public function index(Request $request) // {{domain}}/api/users (GET)
     {
+
         //
         $limit = $request->query->get('limit') ?? 10;
         $offset = $request->query->get('offset') ?? 0;
@@ -61,7 +75,7 @@ class UserController extends ApiController
 
     /**
      * Show the specified resource.
-     * @param int $id
+     * @param User $user
      * @return Response
      */
     public function show(User $user) // {{domain}}/api/users/{user} (GET)
@@ -102,12 +116,29 @@ class UserController extends ApiController
         return $this->successResponse(new UserResource($user), Response::HTTP_CREATED);
     }
 
+    public function uploadAvatar(Request $request, User $user)
+    {
+        try {
+            $validated = $request->validate([
+                'avatar' => 'required|mimes:png,jpeg,jpg,webp|image',
+            ]);
+            if ($validated) {
+                $user->avatar = UploadImages::file($request->file('avatar'), $this->urlAvatar);
+                $user->save();
+                return $this->successResponse(trans('messages.updated_successfully'), Response::HTTP_NO_CONTENT);
+            }
+            return $this->errorResponse(trans('messages.resource_cannot_be_updated'), Response::HTTP_BAD_REQUEST);
+        } catch (Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
+     * @param User $user
      * @return Response
      */
     public function update(UpdateUserRequest $request, User $user) // {{domain}}/api/users/{user} (PUT)
@@ -157,7 +188,7 @@ class UserController extends ApiController
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param User $user
      * @return Response
      */
     public function destroy(User $user) // {{domain}}/api/users/{user} (DELETE)

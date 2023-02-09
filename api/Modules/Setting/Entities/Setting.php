@@ -9,16 +9,16 @@ class Setting extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $guarded = [];
 
     public function getValueAttribute($value)
     {
-        if ($this->key == 'logo') {
+        if ($this->key === 'logo') {
             return asset('public/images/logo/') . '/' . $value;
         }
 
-        if ($this->key == 'favicon') {
-            return asset('public/images/logo/') . '/' . $value;
+        if ($this->key === 'favicon') {
+            return asset('public/images/favicon/') . '/' . $value;
         }
         return $value;
     }

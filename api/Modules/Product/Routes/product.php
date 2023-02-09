@@ -15,7 +15,7 @@ use Modules\Product\Http\Controllers\Products\ProductController;
 */
 
 
-Route::middleware(['auth.apikey'])->controller(ProductController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(ProductController::class)->group(function () {
     // GET
     Route::get('/products', 'index'); // {{domain}}/api/products?limit=10&offset=0
     Route::get('/products/{product}', 'show'); // {{domain}}/api/products/{product}
@@ -23,6 +23,7 @@ Route::middleware(['auth.apikey'])->controller(ProductController::class)->group(
 
     // POST
     Route::post('/products', 'store'); // {{domain}}/api/products
+    Route::post('/products/upload-image/{product}', 'uploadImage'); // {{domain}}/api/products/upload-image/{product}
 
     // PUT
     Route::put('/products/{product}', 'update'); // {{domain}}/api/products/{product} (PUT)

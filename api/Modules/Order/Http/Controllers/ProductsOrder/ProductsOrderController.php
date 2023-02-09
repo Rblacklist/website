@@ -14,6 +14,11 @@ use Modules\Order\Http\Requests\ProductsOrder\UpdateProductsOrderRequest;
 
 class ProductsOrderController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('role:super-admin');
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response

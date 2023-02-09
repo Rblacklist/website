@@ -11,9 +11,15 @@ use App\Http\Controllers\ApiController;
 use Modules\Apis\Transformers\ApiShops\ApiShopResource;
 use Modules\Apis\Http\Requests\ApiShops\StoreApiShopRequest;
 use Modules\Apis\Http\Requests\ApiShops\UpdateApiShopRequest;
+use Modules\Apis\Transformers\ApiShops\ApiShopCollection;
 
 class ApiShopController extends ApiController
 {
+
+    public function __construct(){
+        $this->middleware('role:super-admin');
+    }
+    
     /**
      * Display a listing of the resource.
      * @param Request $request
@@ -44,22 +50,7 @@ class ApiShopController extends ApiController
             ->limit($limit)->offset($offset * $limit)
             ->get() ?? [];
         //
-        return $this->showAll($apiShops, Response::HTTP_OK);
-    }
-
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function selectingFields()
-    {
-        $apiShops = QueryBuilder::for(ApiShops::class)
-            ->allowedFields([
-                'id', 'name', 'key_id', 'key_secret', 'status',
-                'created_at', 'updated_at',
-            ])
-            ->get();
-        return $this->showAll($apiShops, Response::HTTP_OK);
+        return $this->showAll(new ApiShopCollection($apiShops), Response::HTTP_OK);
     }
 
     /**

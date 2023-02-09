@@ -2,8 +2,7 @@
 
 namespace Modules\Source\Transformers\Sources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Source\Transformers\Types\TypeSourceResource;
+use Illuminate\Http\Resources\Json\JsonResource; 
 
 class SourceResource extends JsonResource
 {
@@ -18,10 +17,12 @@ class SourceResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'avatar' => $this->avatar,
             'base_url' => $this->base_url,
+            'data' => $this->data,
             'status' => $this->status,
-            'type_source' => new TypeSourceResource($this->typeSource),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->created_at->format('Y-m-d H:i:s'),
 
         ];
     }

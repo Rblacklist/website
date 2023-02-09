@@ -14,8 +14,15 @@ use Modules\Setting\Http\Requests\Settings\UpdateSettingRequest;
 class SettingController extends ApiController
 {
 
+    //
     private $pathLogo = 'images/logo/';
     private $pathFavicon = 'images/favicon/';
+
+    //
+    public function __construct()
+    {
+        $this->middleware('role:super-admin');
+    }
 
     /**
      * Display a listing of the resource.
@@ -27,6 +34,23 @@ class SettingController extends ApiController
         $settings = Setting::all();
         //
         return $this->successResponse(new SettingCollection($settings), Response::HTTP_OK);
+    }
+
+    /**
+     * Show the specified resource.
+     * @param $value
+     * @return Response
+     */
+    public function show($value)
+    {
+        //
+        if (empty($value) || Setting::where('key', $value)->doesntExist()) {
+            return $this->errorResponse(trans('messages.recource_cannot_be_found'), Response::HTTP_NOT_FOUND);
+        }
+        //
+        $setting = Setting::where('key', $value)->first();
+        //
+        return $this->successResponse(new SettingResource($setting), Response::HTTP_OK);
     }
 
     /**
@@ -91,22 +115,5 @@ class SettingController extends ApiController
         }
 
         return $this->successResponse(trans('messages.updated_successfully'), Response::HTTP_NO_CONTENT);
-    }
-
-    /**
-     * Show the specified resource.
-     * @param $value
-     * @return Response
-     */
-    public function show($value)
-    {
-        //
-        if (empty($value) || Setting::where('key', $value)->doesntExist()) {
-            return $this->errorResponse(trans('messages.recource_cannot_be_found'), Response::HTTP_NOT_FOUND);
-        }
-        //
-        $setting = Setting::where('key', $value)->first();
-        //
-        return $this->successResponse(new SettingResource($setting), Response::HTTP_OK);
     }
 }

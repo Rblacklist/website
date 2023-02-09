@@ -3,7 +3,7 @@
 use Modules\Customer\Http\Controllers\Phones\PhoneController;
 
 
-Route::middleware(['auth.apikey'])->controller(PhoneController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(PhoneController::class)->group(function () {
     // GET
     Route::get('/phones', 'index'); // {{domain}}/api/phones
     Route::get('/phones/{phone}', 'show'); // {{domain}}/api/phones/{phone}

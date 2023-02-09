@@ -14,7 +14,7 @@ use Modules\Setting\Http\Controllers\mails\ConfMailController;
 */
 
 // Conf Mail
-Route::middleware(['auth.apikey'])->controller(ConfMailController::class)->group(function () {
+Route::middleware(['auth.apikey' , 'auth:sanctum'])->controller(ConfMailController::class)->group(function () {
 
     // Get
     Route::get('mail-configuration', 'index');
